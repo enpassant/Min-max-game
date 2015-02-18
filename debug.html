@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<!-- HEAD -->
+	<head>
+		<title>Debug</title>
+		<meta charset="UTF-8">
+		<meta name="author" content="Ferenc Kálmán">
+		
+		<!-- STYLESHEETS -->
+		<style>
+			body{
+				font: bold 1.5em Arial;
+				text-align: center;
+			}
+			input, #output{
+				font: 0.7em Arial;
+				padding: 0.4em;
+				border: 2px solid gray;
+				width: 400px;
+			}
+			#output{
+				text-align: left;
+				height: 200px;
+				display: inline-block;
+				background-color: #F8F8F8;
+				overflow: auto;
+			}
+		</style>
+	</head>
+	
+	<!-- MAIN BODY -->
+	<body>
+		<h1>Command:</h1>
+		<form id="form" onsubmit="return false;">
+			<input type="text" id="cmd" class="change_border">
+		</form>
+		<h1>Output:</h1>
+		<div id="output" class="change_border"></div>
+		
+	</body>
+	
+	<!-- SCRIPTS -->
+	<script>
+		var Log = function(msg,type){
+			var out = document.getElementById("output");
+			console.log(msg);
+			switch(type){
+				case "in": case "out":
+					msg = '<span style="color:blue">'+(type==="in"?'> ':'< ')+msg+'</span>';
+					break;
+				case "error":
+					msg = '<span style="color:red">> '+msg+'</span>';
+			}
+			out.innerHTML += msg+"<br>";
+			out.scrollTop = out.scrollHeight;
+		};
+		(function(){
+			var Focus = function(){
+				this.style.borderColor = "red";
+			};
+			var Blur = function(){
+				this.style.borderColor = "gray";
+			};
+			
+			var els = document.getElementsByClassName("change_border");
+			for(var i=0 ; i<els.length ; i++){
+				els[i].addEventListener("focus", Focus, false);
+				els[i].addEventListener("blur", Blur, false);
+			}
+			
+			var cmd = document.getElementById("cmd");
+			document.getElementById("form").addEventListener("submit",	function(e){
+				e.preventDefault;
+				Log(cmd.value, "in");
+				try{
+					Log(eval(cmd.value), "out");
+				}catch(ex){
+					Log(ex.message, "error");
+				}
+				cmd.value = "";
+			}, false);
+		})();
+	</script>
+	<script src="modes.js"></script>
+</html>
