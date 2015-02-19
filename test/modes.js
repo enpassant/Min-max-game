@@ -13,9 +13,15 @@ var arr2 = [[9, 8, 6],
             [5, 6, 6],
             [1, 1, 0]];
 
-game.Start(1, 1, arr);
+var Game = new game.Start(1, 1, arr);
 
 describe("Game's", function(){
+    describe('getModes function', function() {
+        it('must be exists', function() {
+            assert.equal(typeof Game.getModes, "function");
+        })
+    })
+
     describe('MODE[0]', function() {
         it('should contains the arr values', function() {
             assert.deepEqual(arr, game.MODE[0]);
