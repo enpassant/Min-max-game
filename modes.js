@@ -1,6 +1,29 @@
 // NEW ONE
 (function(scope, undefined){
-	var Start = function(m1, m2, arr, width){
+	var Game = function(){
+		var TABLE = [],
+			MODE = [];
+
+		this.start = function(m1, m2, arr, width){
+			TABLE = formatArray(arr, width);
+			var w = TABLE.length,
+				h = TABLE[0].length,
+				total = TABLE[0][0];
+
+			this.getModes();
+			scope["MODE"] = MODE;
+
+			for(var i=0,j=0,atck=true; i+j<w+h-2; atck=!atck){
+				if(i===w-1) j++;
+				else if(j===h-1) i++;
+				else if(this.Step(atck, atck?m1:m2, i, j)) i++;
+				else j++;
+
+				if(atck) total += TABLE[i][j];
+			}
+
+			return total;
+		};
 
 		this.getModes = function(){
 			// JUST CHOOSE MAX/MIN
@@ -19,28 +42,6 @@
 		this.Step = function(atck, m, r, c){
 			return atck === (MODE[m][r][c+1] < MODE[m][r+1][c]);
 		}
-
-		var TABLE = [],
-			MODE = [];
-
-		TABLE = formatArray(arr, width);
-		var w = TABLE.length,
-			h = TABLE[0].length,
-			total = TABLE[0][0];
-
-		this.getModes();
-		scope["MODE"] = MODE;
-
-		for(var i=0,j=0,atck=true; i+j<w+h-2; atck=!atck){
-			if(i===w-1) j++;
-			else if(j===h-1) i++;
-			else if(this.Step(atck, atck?m1:m2, i, j)) i++;
-			else j++;
-
-			if(atck) total += TABLE[i][j];
-		}
-
-		return total;
 
 
 		function createArray(method){
@@ -87,7 +88,7 @@
 		}
 	};
 
-	scope["Start"] = Start;
+	scope["Game"] = Game;
 })(this);
 
 // vim: set ts=4 sw=4 sts=4 noexpandtab :

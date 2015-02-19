@@ -13,7 +13,8 @@ var arr2 = [[9, 8, 6],
             [5, 6, 6],
             [1, 1, 0]];
 
-var Game = new game.Start(1, 1, arr);
+var Game = new game.Game();
+Game.start(1, 1, arr);
 
 describe("Game's", function(){
     describe('getModes function', function() {
