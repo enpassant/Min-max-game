@@ -5,7 +5,7 @@
 			MODE = [];
 
 		this.start = function(m1, m2, arr, width){
-			TABLE = formatArray(arr, width);
+			TABLE = this.formatArray(arr, width);
 			var w = TABLE.length,
 				h = TABLE[0].length,
 				total = TABLE[0][0];
@@ -29,11 +29,11 @@
 			// JUST CHOOSE MAX/MIN
 			MODE[0] = TABLE;
 			// CHOOSE BEST PATH
-			MODE[1] = createArray(function(arr,r,c){
+			MODE[1] = this.createArray(function(arr,r,c){
 				return Math.max(arr[r][c+1], arr[r+1][c]);
 			});
 			// CALCULATE ENEMY TOO
-			MODE[2] = createArray(function(arr,r,c){
+			MODE[2] = this.createArray(function(arr,r,c){
 				if((r+c)%2===0) return Math.max(arr[r][c+1], arr[r+1][c]);
 				else return Math.min(MODE[1][r][c+1], MODE[1][r+1][c]);
 			});
@@ -43,8 +43,7 @@
 			return atck === (MODE[m][r][c+1] < MODE[m][r+1][c]);
 		}
 
-
-		function createArray(method){
+		this.createArray = function(method){
 			var A = [],
 				w = TABLE.length,
 				h = TABLE[0].length;
@@ -66,7 +65,7 @@
 			return A;
 		}
 
-		function formatArray(arr, w){
+		this.formatArray = function(arr, w){
 			var A = [];
 
 			if(!Array.isArray(arr[0])){
