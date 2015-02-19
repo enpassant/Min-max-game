@@ -14,12 +14,21 @@ var arr2 = [[9, 8, 6],
             [1, 1, 0]];
 
 var Game = new game.Game();
-Game.start(1, 1, arr);
 
-describe("Game's", function(){
-    describe('getModes function', function() {
+describe("Game's function", function(){
+    describe('getModes', function() {
         it('must be exists', function() {
             assert.equal(typeof Game.getModes, "function");
+        })
+    })
+})
+
+describe("Game's", function(){
+    var result = Game.start(1, 1, arr);
+
+    describe('result', function() {
+        it('must be 6', function() {
+            assert.equal(result, 6);
         })
     })
 

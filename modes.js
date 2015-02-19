@@ -8,7 +8,7 @@
 			var TABLE = this.formatArray(arr, width);
 
 			this.getModes(TABLE);
-			this.play(m1, m2, TABLE);
+			return this.play(m1, m2, TABLE);
 		};
 
 		this.play = function(m1, m2, TABLE){
