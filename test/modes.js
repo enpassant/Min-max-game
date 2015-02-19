@@ -25,19 +25,19 @@ describe("Game's", function(){
 
     describe('MODE[0]', function() {
         it('should contains the arr values', function() {
-            assert.deepEqual(arr, game.MODE[0]);
+            assert.deepEqual(arr, Game.MODE[0]);
         })
     })
 
     describe('MODE[1]', function() {
         it('should contains the arr1 values', function() {
-            assert.deepEqual(arr1, game.MODE[1]);
+            assert.deepEqual(arr1, Game.MODE[1]);
         })
     })
 
     describe('MODE[2]', function() {
         it('should contains the arr2 values', function() {
-            assert.deepEqual(arr2, game.MODE[2]);
+            assert.deepEqual(arr2, Game.MODE[2]);
         })
     })
 })

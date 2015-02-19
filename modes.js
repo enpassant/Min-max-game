@@ -1,8 +1,8 @@
 // NEW ONE
 (function(scope, undefined){
 	var Game = function(){
-		var TABLE = [],
-			MODE = [];
+		var TABLE = [];
+		this.MODE = [];
 
 		this.start = function(m1, m2, arr, width){
 			TABLE = this.formatArray(arr, width);
@@ -11,7 +11,6 @@
 				total = TABLE[0][0];
 
 			this.getModes();
-			scope["MODE"] = MODE;
 
 			for(var i=0,j=0,atck=true; i+j<w+h-2; atck=!atck){
 				if(i===w-1) j++;
@@ -27,20 +26,20 @@
 
 		this.getModes = function(){
 			// JUST CHOOSE MAX/MIN
-			MODE[0] = TABLE;
+			this.MODE[0] = TABLE;
 			// CHOOSE BEST PATH
-			MODE[1] = this.createArray(function(arr,r,c){
+			this.MODE[1] = this.createArray(function(arr,r,c){
 				return Math.max(arr[r][c+1], arr[r+1][c]);
-			});
+			}.bind(this));
 			// CALCULATE ENEMY TOO
-			MODE[2] = this.createArray(function(arr,r,c){
+			this.MODE[2] = this.createArray(function(arr,r,c){
 				if((r+c)%2===0) return Math.max(arr[r][c+1], arr[r+1][c]);
-				else return Math.min(MODE[1][r][c+1], MODE[1][r+1][c]);
-			});
+				else return Math.min(this.MODE[1][r][c+1], this.MODE[1][r+1][c]);
+			}.bind(this));
 		};
 
 		this.Step = function(atck, m, r, c){
-			return atck === (MODE[m][r][c+1] < MODE[m][r+1][c]);
+			return atck === (this.MODE[m][r][c+1] < this.MODE[m][r+1][c]);
 		}
 
 		this.createArray = function(method){
