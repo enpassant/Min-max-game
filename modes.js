@@ -5,12 +5,16 @@
 		this.MODE = [];
 
 		this.start = function(m1, m2, arr, width){
-			var TABLE = this.formatArray(arr, width),
-				w = TABLE.length,
-				h = TABLE[0].length,
-				total = TABLE[0][0];
+			var TABLE = this.formatArray(arr, width);
 
 			this.getModes(TABLE);
+			this.play(m1, m2, TABLE);
+		};
+
+		this.play = function(m1, m2, TABLE){
+			var	w = TABLE.length,
+				h = TABLE[0].length,
+				total = TABLE[0][0];
 
 			for(var i=0,j=0,atck=true; i+j<w+h-2; atck=!atck){
 				if(i===w-1) j++;
