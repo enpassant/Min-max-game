@@ -16,6 +16,24 @@ var arr2 = [[9, 8, 6],
 var Game = new game.Game();
 
 describe("Game's function", function(){
+    describe('getCell', function() {
+        it('must be return 0 outside', function() {
+            assert.equal(Game.getCell(arr, 0, -1), 0);
+            assert.equal(Game.getCell(arr, -1, 0), 0);
+            assert.equal(Game.getCell(arr, -1, -1), 0);
+            assert.equal(Game.getCell(arr, 3, 0), 0);
+            assert.equal(Game.getCell(arr, 0, 3), 0);
+            assert.equal(Game.getCell(arr, 3, 3), 0);
+        })
+        it('must be return non 0 inside', function() {
+            assert.equal(Game.getCell(arr, 0, 0), 1);
+            assert.equal(Game.getCell(arr, 0, 1), 2);
+            assert.equal(Game.getCell(arr, 1, 0), 4);
+            assert.equal(Game.getCell(arr, 1, 1), 5);
+            assert.equal(Game.getCell(arr, 2, 0), 3);
+            assert.equal(Game.getCell(arr, 2, 2), 3);
+        })
+    })
     describe('getModes', function() {
         it('must be exists', function() {
             assert.equal(typeof Game.getModes, "function");
@@ -24,7 +42,11 @@ describe("Game's function", function(){
 })
 
 describe("Game's", function(){
-    var result = Game.start(1, 1, arr);
+    var result;
+
+    before(function() {
+        result = Game.start(1, 1, arr);
+    })
 
     describe('result', function() {
         it('must be 6', function() {

@@ -28,6 +28,11 @@
 			return total;
 		};
 
+		this.getCell = function(arr, i, j) {
+			if (arr[i] && arr[i][j]) return arr[i][j];
+			else return 0;
+		};
+
 		this.getModes = function(TABLE){
 			// JUST CHOOSE MAX/MIN
 			this.MODE[0] = TABLE;
