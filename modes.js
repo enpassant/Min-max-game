@@ -38,17 +38,17 @@
 			this.MODE[0] = TABLE;
 			// CHOOSE BEST PATH
 			this.MODE[1] = this.createArray(TABLE, function(arr,r,c){
-				return Math.max(arr[r][c+1], arr[r+1][c]);
+				return Math.max(this.getCell(arr, r, c+1), this.getCell(arr, r+1, c));
 			}.bind(this));
 			// CALCULATE ENEMY TOO
 			this.MODE[2] = this.createArray(TABLE, function(arr,r,c){
-				if((r+c)%2===0) return Math.max(arr[r][c+1], arr[r+1][c]);
-				else return Math.min(this.MODE[1][r][c+1], this.MODE[1][r+1][c]);
+				if((r+c)%2===0) return Math.max(this.getCell(arr, r, c+1), this.getCell(arr, r+1, c));
+				else return Math.min(this.getCell(this.MODE[1], r, c+1), this.getCell(this.MODE[1], r+1, c));
 			}.bind(this));
 		};
 
 		this.Step = function(atck, m, r, c){
-			return atck === (this.MODE[m][r][c+1] < this.MODE[m][r+1][c]);
+			return atck === (this.getCell(this.MODE[m], r, c+1) < this.getCell(this.MODE[m], r+1, c));
 		}
 
 		this.createArray = function(TABLE, method){
@@ -60,12 +60,7 @@
 				A[i] = [];
 
 				for(var j=h-1; j>=0; j--){
-					A[i][j] = TABLE[i][j];
-
-					if(i===w-1 && j===h-1) continue;
-					if(i===w-1 && j<h-1) A[i][j] += A[i][j+1];
-					else if(j===h-1) A[i][j] += A[i+1][j];
-					else A[i][j] += method(A,i,j);
+					A[i][j] = TABLE[i][j] + method(A, i, j);
 				}
 			}
 
