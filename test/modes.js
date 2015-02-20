@@ -18,12 +18,12 @@ var Game = new game.Game();
 describe("Game's function", function(){
     describe('getCell', function() {
         it('must be return 0 outside', function() {
-            assert.equal(Game.getCell(arr, 0, -1), 0);
-            assert.equal(Game.getCell(arr, -1, 0), 0);
-            assert.equal(Game.getCell(arr, -1, -1), 0);
-            assert.equal(Game.getCell(arr, 3, 0), 0);
-            assert.equal(Game.getCell(arr, 0, 3), 0);
-            assert.equal(Game.getCell(arr, 3, 3), 0);
+            assert.equal(Game.getCell(arr, 0, -1, 0), 0);
+            assert.equal(Game.getCell(arr, -1, 0, 0), 0);
+            assert.equal(Game.getCell(arr, -1, -1, 0), 0);
+            assert.equal(Game.getCell(arr, 3, 0, 0), 0);
+            assert.equal(Game.getCell(arr, 0, 3, 0), 0);
+            assert.equal(Game.getCell(arr, 3, 3, 0), 0);
         })
         it('must be return non 0 inside', function() {
             assert.equal(Game.getCell(arr, 0, 0), 1);
