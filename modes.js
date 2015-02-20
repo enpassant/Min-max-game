@@ -1,7 +1,7 @@
 // NEW ONE
 // Test: new Game().start(1,1,[ [1, 2, 3], [4, 5, 6], [3, 1, 3]]);
 (function(scope, undefined){
-	var Game = function(){
+	scope["Game"] = function(){
 		this.MODE = [];
 
 		this.start = function(m1, m2, arr, width){
@@ -31,10 +31,8 @@
 		this.applyFnOnCells = function(arr, i, j, fn, def) {
 			var cell1 = this.getCell(arr, i, j+1, undefined);
 			var cell2 = this.getCell(arr, i+1, j, undefined);
-			if (cell1 === undefined && cell2 === undefined) return def;
-			else if (cell1 === undefined) return cell2;
-			else if (cell2 === undefined) return cell1;
-			else return fn(cell1, cell2);
+			if (cell1 != undefined && cell2 != undefined) return fn(cell1, cell2);
+			else return cell1 || cell2 || def;
 		};
 
 		this.getCell = function(arr, i, j, def) {
@@ -99,8 +97,5 @@
 			return A;
 		}
 	};
-
-	scope["Game"] = Game;
 })(this);
-
 // vim: set ts=4 sw=4 sts=4 noexpandtab :
