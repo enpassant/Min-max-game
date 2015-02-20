@@ -34,6 +34,15 @@ describe("Game's function", function(){
             assert.equal(Game.getCell(arr, 2, 2), 3);
         })
     })
+    describe('applyFnOnCells', function() {
+        it('must be return good values', function() {
+            assert.equal(Game.applyFnOnCells(arr, 0, 0, Math.max, 0), 4);
+            assert.equal(Game.applyFnOnCells(arr, 0, 2, Math.max, 0), 6);
+            assert.equal(Game.applyFnOnCells(arr, 2, 0, Math.max, 0), 1);
+            assert.equal(Game.applyFnOnCells(arr, 2, 1, Math.max, 0), 3);
+            assert.equal(Game.applyFnOnCells(arr, 2, 2, Math.max, 0), 0);
+        })
+    })
     describe('getModes', function() {
         it('must be exists', function() {
             assert.equal(typeof Game.getModes, "function");

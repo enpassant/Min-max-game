@@ -28,6 +28,15 @@
 			return total;
 		};
 
+		this.applyFnOnCells = function(arr, i, j, fn, def) {
+			var cell1 = this.getCell(arr, i, j+1, undefined);
+			var cell2 = this.getCell(arr, i+1, j, undefined);
+			if (cell1 === undefined && cell2 === undefined) return def;
+			else if (cell1 === undefined) return cell2;
+			else if (cell2 === undefined) return cell1;
+			else return fn(cell1, cell2);
+		};
+
 		this.getCell = function(arr, i, j, def) {
 			if (arr[i] && arr[i][j]) return arr[i][j];
 			else return def;
@@ -38,24 +47,18 @@
 			this.MODE[0] = TABLE;
 			// CHOOSE BEST PATH
 			this.MODE[1] = this.createArray(TABLE, function(arr,r,c){
-				return Math.max(0, this.getCell(arr, r, c+1, -Infinity), this.getCell(arr, r+1, c, -Infinity));
+				return this.applyFnOnCells(arr, r, c, Math.max, 0);
 			}.bind(this));
 			// CALCULATE ENEMY TOO
 			this.MODE[2] = this.createArray(TABLE, function(arr,r,c){
-				if((r+c)%2===0) return Math.max(0, this.getCell(arr, r, c+1, -Infinity),
-						this.getCell(arr, r+1, c, -Infinity));
-				else {
-					var ret = Math.min(this.getCell(this.MODE[1], r, c+1, Infinity),
-						this.getCell(this.MODE[1], r+1, c, Infinity));
-					if (ret === Infinity) return 0;
-					else return ret;
-				}
+				if((r+c)%2===0) return this.applyFnOnCells(arr, r, c, Math.max, 0);
+				else return this.applyFnOnCells(this.MODE[1], r, c, Math.min, 0);
 			}.bind(this));
 		};
 
 		this.Step = function(atck, m, r, c){
-			return atck === (this.getCell(this.MODE[m], r, c+1, -Infinity) <
-				   this.getCell(this.MODE[m], r+1, c, Infinity));
+			return atck === (this.getCell(this.MODE[m], r, c+1, 0) <
+				   this.getCell(this.MODE[m], r+1, c, 0));
 		}
 
 		this.createArray = function(TABLE, method){
