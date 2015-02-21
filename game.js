@@ -7,7 +7,7 @@
 		this.start = function(m1, m2, arr, width){
 			var TABLE = this.formatArray(arr, width);
 
-			this.getModes(TABLE);
+			this.updateModes(TABLE);
 			return this.play(m1, m2, TABLE);
 		};
 
@@ -40,7 +40,7 @@
 			else return def;
 		};
 
-		this.getModes = function(TABLE){
+		this.updateModes = function(TABLE){
 			// JUST CHOOSE MAX/MIN
 			this.MODE[0] = TABLE;
 			// CHOOSE BEST PATH
