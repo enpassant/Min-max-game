@@ -31,7 +31,7 @@
 		this.applyFnOnCells = function(arr, i, j, fn, def) {
 			var cell1 = this.getCell(arr, i, j+1, undefined);
 			var cell2 = this.getCell(arr, i+1, j, undefined);
-			if (cell1 != undefined && cell2 != undefined) return fn(cell1, cell2);
+			if (cell1 !== undefined && cell2 !== undefined) return fn(cell1, cell2);
 			else return cell1 || cell2 || def;
 		};
 
