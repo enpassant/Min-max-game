@@ -16,7 +16,7 @@ Some basic min/max game js test.
 ###Basic:
 
 ```js
-Start(mode1, mode2, array [,columns]);
+new Game().start(mode1, mode2, array [,columns]);
 ```
 
 ###Parameters:
@@ -39,10 +39,10 @@ Start(mode1, mode2, array [,columns]);
 
 ```js
 // 3x2 array
-Start(1, 1, [[0,1,2],[3,4,5]]);
+new Game().start(1, 1, [[0,1,2],[3,4,5]]);
 
 // or the exact same in other way:
-Start(1, 1, [0,1,2,3,4,5], 3);
+new Game().start(1, 1, [0,1,2,3,4,5], 3);
 
 
 /* Array:
