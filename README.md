@@ -31,7 +31,7 @@ Start(mode1, mode2, array [,columns]);
 ####Modes:
 **0:** most simple: choose bigger/smaller from the one below and the one on the right
 
-**1:** basic: calculate wich way you can get the max and decide based on *"mode 0"*
+**1:** basic: calculate which way you can get the max and decide based on *"mode 0"*
 
 **2:** improved: use *"mode 1"*, but also consider that other player uses *"mode 1"*, so improve the method based on that
 
