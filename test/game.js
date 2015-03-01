@@ -1,5 +1,5 @@
 var assert = require("assert")
-    , game = require('../modes')
+    , game = require('../game')
 
 var arr = [ [1, 2, 3],
             [4, 5, 6],
@@ -52,9 +52,11 @@ describe("Game's function", function(){
 
 describe("Game's", function(){
     var result;
+    var MODE;
 
     before(function() {
         result = Game.start(1, 1, arr);
+        MODE = Game.getModes(arr);
     })
 
     describe('result', function() {
@@ -65,19 +67,19 @@ describe("Game's", function(){
 
     describe('MODE[0]', function() {
         it('should contains the arr values', function() {
-            assert.deepEqual(arr, Game.MODE[0]);
+            assert.deepEqual(arr, MODE[0]);
         })
     })
 
     describe('MODE[1]', function() {
         it('should contains the arr1 values', function() {
-            assert.deepEqual(arr1, Game.MODE[1]);
+            assert.deepEqual(arr1, MODE[1]);
         })
     })
 
     describe('MODE[2]', function() {
         it('should contains the arr2 values', function() {
-            assert.deepEqual(arr2, Game.MODE[2]);
+            assert.deepEqual(arr2, MODE[2]);
         })
     })
 })

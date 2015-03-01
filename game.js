@@ -2,16 +2,14 @@
 // Test: new Game().start(1,1,[ [1, 2, 3], [4, 5, 6], [3, 1, 3]]);
 (function(scope, undefined){
 	scope["Game"] = function(){
-		this.MODE = [];
-
 		this.start = function(m1, m2, arr, width){
 			var TABLE = this.formatArray(arr, width);
 
-			this.updateModes(TABLE);
-			return this.play(m1, m2, TABLE);
+			var MODE = this.getModes(TABLE);
+			return this.play(m1, m2, TABLE, MODE);
 		};
 
-		this.play = function(m1, m2, TABLE){
+		this.play = function(m1, m2, TABLE, MODE){
 			var	w = TABLE.length,
 				h = TABLE[0].length,
 				total = TABLE[0][0];
@@ -19,7 +17,7 @@
 			for(var i=0,j=0,atck=true; i+j<w+h-2; atck=!atck){
 				if(i===w-1) j++;
 				else if(j===h-1) i++;
-				else if(this.Step(atck, atck?m1:m2, i, j)) i++;
+				else if(this.Step(MODE, atck, atck?m1:m2, i, j)) i++;
 				else j++;
 
 				if(atck) total += TABLE[i][j];
@@ -40,23 +38,22 @@
 			else return def;
 		};
 
-		this.updateModes = function(TABLE){
-			// JUST CHOOSE MAX/MIN
-			this.MODE[0] = TABLE;
+		this.getModes = function(TABLE) {
 			// CHOOSE BEST PATH
-			this.MODE[1] = this.createArray(TABLE, function(arr,r,c){
+			MODE_1 = this.createArray(TABLE, function(arr,r,c){
 				return this.applyFnOnCells(arr, r, c, Math.max, 0);
 			}.bind(this));
 			// CALCULATE ENEMY TOO
-			this.MODE[2] = this.createArray(TABLE, function(arr,r,c){
+			MODE_2 = this.createArray(TABLE, function(arr,r,c){
 				if((r+c)%2===0) return this.applyFnOnCells(arr, r, c, Math.max, 0);
-				else return this.applyFnOnCells(this.MODE[1], r, c, Math.min, 0);
+				else return this.applyFnOnCells(MODE_1, r, c, Math.min, 0);
 			}.bind(this));
+			return [ TABLE, MODE_1, MODE_2 ];
 		};
 
-		this.Step = function(atck, m, r, c){
-			return atck === (this.getCell(this.MODE[m], r, c+1, 0) <
-				   this.getCell(this.MODE[m], r+1, c, 0));
+		this.Step = function(MODE, atck, m, r, c){
+			return atck === (this.getCell(MODE[m], r, c+1, 0) <
+				   this.getCell(MODE[m], r+1, c, 0));
 		}
 
 		this.createArray = function(TABLE, method){
