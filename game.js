@@ -4,14 +4,15 @@
 	scope["Game"] = function(){
 		this.start = function(m1, m2, arr, width){
 			var TABLE = this.formatArray(arr, width);
+			console.log(TABLE);
 
 			var MODE = this.getModes(TABLE);
 			return this.play(m1, m2, TABLE, MODE);
 		};
 
 		this.tournament = function(scores) {
-			var width = this.random(1, 100);
-			var height = this.random(1, 100);
+			var width = this.random(5, 6);
+			var height = this.random(5, 6);
 			var arr = [];
 
 			for(var i=width-1; i>=0; i--){
@@ -31,7 +32,7 @@
 				}
 			}
 
-			for(var i=0; i<MODE.length; i++) {
+			for(var i=0; i<MODE.length - 1; i++) {
 				for(var j=i+1; j<MODE.length; j++) {
 					var match1 = this.play(i, j, TABLE, MODE);
 					var match2 = this.play(j, i, TABLE, MODE);
@@ -69,7 +70,9 @@
 			var cell1 = this.getCell(arr, i, j+1, undefined);
 			var cell2 = this.getCell(arr, i+1, j, undefined);
 			if (cell1 !== undefined && cell2 !== undefined) return fn(cell1, cell2);
-			else return cell1 || cell2 || def;
+			else if (cell1 !== undefined) return fn(cell1)
+			else if (cell2 !== undefined) return fn(cell2)
+			else return fn(def);
 		};
 
 		this.getCell = function(arr, i, j, def) {
@@ -80,14 +83,28 @@
 		this.getModes = function(TABLE) {
 			// CHOOSE BEST PATH
 			MODE_1 = this.createArray(TABLE, function(arr,r,c){
-				return this.applyFnOnCells(arr, r, c, Math.max, 0);
+				return TABLE[r][c] + this.applyFnOnCells(arr, r, c, Math.max, 0);
 			}.bind(this));
 			// CALCULATE ENEMY TOO
 			MODE_2 = this.createArray(TABLE, function(arr,r,c){
-				if((r+c)%2===0) return this.applyFnOnCells(arr, r, c, Math.max, 0);
-				else return this.applyFnOnCells(MODE_1, r, c, Math.min, 0);
+				if((r+c)%2===0) return TABLE[r][c] + this.applyFnOnCells(arr, r, c, Math.max, 0);
+				else return TABLE[r][c] + this.applyFnOnCells(MODE_1, r, c, Math.min, 0);
 			}.bind(this));
-			return [ TABLE, MODE_1, MODE_2 ];
+			// BEST ALGORITHM
+			MODE_3 = this.createArray(TABLE, function(arr,r,c) {
+				var player1 = function(x, y) {
+					var value = this.getCell(TABLE, r, c,0);
+					if (y === undefined) return value + x;
+					return Math.min(value+y,value+x);
+				}.bind(this)
+				var player2 = function(x, y) {
+					if (y === undefined) return x;
+					return Math.max(x, y);
+				}
+				if((r+c)%2===0) return this.applyFnOnCells(arr, r, c, player2, TABLE[r][c]);
+				else return this.applyFnOnCells(arr, r, c, player1, 0);
+			}.bind(this));
+			return [ TABLE, MODE_1, MODE_2, MODE_3 ];
 		};
 
 		this.Step = function(MODE, atck, m, r, c){
@@ -102,7 +119,7 @@
 				A[i] = [];
 
 				for(var j=TABLE[i].length-1; j>=0; j--){
-					A[i][j] = TABLE[i][j] + method(A, i, j);
+					A[i][j] = method(A, i, j);
 				}
 			}
 

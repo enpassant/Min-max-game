@@ -13,6 +13,24 @@ var arr2 = [[9, 8, 6],
             [5, 6, 6],
             [1, 1, 0]];
 
+var arr3 = [[8, 8, 6],
+            [5, 6, 6],
+            [1, 1, 0]];
+
+var bigArr = [ [ 3, 8, 0, 13, 0 ],
+  [ 13, 0, 18, 0, 1 ],
+  [ 0, 17, 0, 14, 0 ],
+  [ 14, 0, 1, 0, 12 ],
+  [ 0, 9, 0, 18, 0 ],
+  [ 7, 0, 14, 0, 8 ] ];
+
+var bigArr3 = [ [61,60,52,34,21],
+    [61,52,52,34,21],
+    [48,48,34,34,20],
+    [45,31,27,26,20],
+    [31,31,26,26,8],
+    [29,22,22,8,8]];
+
 var Game = new game.Game();
 
 describe("Game's function", function(){
@@ -82,16 +100,47 @@ describe("Game's", function(){
             assert.deepEqual(arr2, MODE[2]);
         })
     })
+
+    describe('MODE[3]', function() {
+        it('should contains the arr3 values', function() {
+            assert.deepEqual(arr3, MODE[3]);
+        })
+    })
+})
+
+describe("Game's at bigArr", function(){
+    var result1;
+    var result2;
+    var MODE;
+
+    before(function() {
+        result1 = Game.start(2, 3, bigArr);
+        result2 = Game.start(3, 2, bigArr);
+        MODE = Game.getModes(bigArr);
+    })
+
+    describe('result', function() {
+        it('must be 64', function() {
+            assert.equal(result1, 64);
+            assert.equal(result2, 64);
+        })
+    })
+
+    describe('MODE[3]', function() {
+        it('should contains the arr3 values', function() {
+            assert.deepEqual(bigArr3, MODE[3]);
+        })
+    })
 })
 
 describe("Tournament's", function(){
     describe('length', function() {
-        it('must be 3', function() {
+        it('must be 4', function() {
             var scores = Game.tournament();
             for (var i = 0, len = 20; i < len; i++) {
                 scores = Game.tournament(scores);
                 console.log(scores);
-                assert.equal(scores.length, 3);
+                assert.equal(scores.length, 4);
             }
         })
     })
