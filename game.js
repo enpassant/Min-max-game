@@ -57,19 +57,16 @@
 		}
 
 		this.createArray = function(TABLE, method){
-			var A = [],
-				w = TABLE.length,
-				h = TABLE[0].length;
+			var A = [];
 
-			for(var i=w-1; i>=0; i--){
+			for(var i=TABLE.length-1; i>=0; i--){
 				A[i] = [];
 
-				for(var j=h-1; j>=0; j--){
+				for(var j=TABLE[i].length-1; j>=0; j--){
 					A[i][j] = TABLE[i][j] + method(A, i, j);
 				}
 			}
 
-			console.log("Max: " + A[0][0]);
 			return A;
 		}
 
