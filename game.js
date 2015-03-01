@@ -9,6 +9,45 @@
 			return this.play(m1, m2, TABLE, MODE);
 		};
 
+		this.tournament = function(scores) {
+			var width = this.random(1, 100);
+			var height = this.random(1, 100);
+			var arr = [];
+
+			for(var i=width-1; i>=0; i--){
+				arr[i] = [];
+
+				for(var j=height-1; j>=0; j--){
+					arr[i][j] = this.random(1, 20);
+				}
+			}
+			var TABLE = this.formatArray(arr, width);
+
+			var MODE = this.getModes(TABLE);
+			if (scores === undefined) {
+				var scores = [];
+				for(var i=0; i<MODE.length; i++) {
+					scores[i] = 0;
+				}
+			}
+
+			for(var i=0; i<MODE.length; i++) {
+				for(var j=i+1; j<MODE.length; j++) {
+					var match1 = this.play(i, j, TABLE, MODE);
+					var match2 = this.play(j, i, TABLE, MODE);
+					if (match1 > match2) {
+						scores[i] += 2;
+					} else if (match1 < match2) {
+						scores[j] += 2;
+					} else {
+						scores[i] += 1;
+						scores[j] += 1;
+					}
+				}
+			}
+			return scores;
+		};
+
 		this.play = function(m1, m2, TABLE, MODE){
 			var	w = TABLE.length,
 				h = TABLE[0].length,
@@ -90,6 +129,10 @@
 
 			return A;
 		}
+
+		this.random = function(min, max) {
+			return Math.floor((Math.random() * (max - min + 1)) + min);
+		};
 	};
 })(this);
 // vim: set ts=4 sw=4 sts=4 noexpandtab :

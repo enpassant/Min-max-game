@@ -83,3 +83,16 @@ describe("Game's", function(){
         })
     })
 })
+
+describe("Tournament's", function(){
+    describe('length', function() {
+        it('must be 3', function() {
+            var scores = Game.tournament();
+            for (var i = 0, len = 20; i < len; i++) {
+                scores = Game.tournament(scores);
+                console.log(scores);
+                assert.equal(scores.length, 3);
+            }
+        })
+    })
+})
